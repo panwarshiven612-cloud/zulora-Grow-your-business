@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Your Business from Zulora</title>
+    <style>
+        /* =========================================================
+           CORE VARIABLES (PEARL & AZURE BRIGHT THEME)
+           ========================================================= */
+        :root {
+            --bg-pearl: #f8fafc;
+            --bg-pure-white: #ffffff;
+            --azure-blue: #0ea5e9;
+            --azure-dark: #0284c7;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border-soft: rgba(14, 165, 233, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 8px 32px 0 rgba(14, 165, 233, 0.05);
+        }
+
+        /* =========================================================
+           RESET & GLOBAL STYLES
+           ========================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-pearl);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Top Creator Tag */
+        .creator-tag {
+            background-color: var(--text-main);
+            color: var(--bg-pearl);
+            text-align: center;
+            padding: 4px;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            z-index: 1000;
+            position: relative;
+        }
+
+        /* =========================================================
+           GLASSMORPHISM UTILITIES & ANIMATIONS
+           ========================================================= */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: 16px;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        /* =========================================================
+           NAVIGATION BAR
+           ========================================================= */
+        nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .brand-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--azure-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--azure-blue);
+        }
+
+        .btn-primary {
+            background-color: var(--azure-blue);
+            color: var(--bg-pure-white) !important;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--azure-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--azure-blue);
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            border: 2px solid var(--azure-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--azure-blue);
+            color: var(--bg-pure-white);
+        }
+
+        /* =========================================================
+           HERO SECTION
+           ========================================================= */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Abstract Background Elements (Soft, no neon) */
+        .bg-shape-1 {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(14,165,233,0.08) 0%, rgba(248,250,252,0) 70%);
+            z-index: -1;
+        }
+
+        .bg-shape-2 {
+            position: absolute;
+            bottom: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(14,165,233,0.05) 0%, rgba(248,250,252,0) 70%);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            color: var(--azure-blue);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 650px;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* =========================================================
+           FEATURES SECTION
+           ========================================================= */
+        .section-container {
+            padding: 100px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--azure-blue);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* =========================================================
+           SUPPORT & CONTACT SECTION
+           ========================================================= */
+        .support-section {
+            background-color: var(--bg-pure-white);
+            border-top: 1px solid var(--border-soft);
+            border-bottom: 1px solid var(--border-soft);
+        }
+
+        .contact-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .contact-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            min-width: 350px;
+        }
+
+        .contact-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--azure-blue);
+        }
+
+        /* =========================================================
+           AUTHENTICATION MODAL
+           ========================================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .auth-container {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h2 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: var(--bg-pure-white);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--azure-blue);
+        }
+
+        .btn-full {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .divider:not(:empty)::before { margin-right: .25em; }
+        .divider:not(:empty)::after { margin-left: .25em; }
+
+        .btn-google {
+            width: 100%;
+            background: var(--bg-pure-white);
+            color: var(--text-main);
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.2s ease;
+        }
+
+        .btn-google:hover {
+            background: #f1f5f9;
+        }
+
+        .toggle-auth {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .toggle-auth span {
+            color: var(--azure-blue);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           DASHBOARD PREVIEW (Hidden by default)
+           ========================================================= */
+        #app-dashboard {
+            display: none;
+            padding: 40px 5%;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--bg-pure-white);
+            color: var(--text-light);
+            border-top: 1px solid var(--border-soft);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BRANDING TAG -->
+    <div class="creator-tag">
+        made by a foundation company by shiven panwar zulora
+    </div>
+
+    <!-- MAIN LANDING VIEW (No Forced Login) -->
+    <div id="landing-view">
+        
+        <!-- NAVIGATION -->
+        <nav>
+            <a href="#" class="brand-logo">🍕 Zulora POS</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#support">Support</a>
+                <button class="btn-outline" onclick="openAuthModal('login')">Login</button>
+                <button class="btn-primary" onclick="openAuthModal('register')">Create Restaurant</button>
+            </div>
+        </nav>
+
+        <!-- HERO SECTION -->
+        <header class="hero">
+            <div class="bg-shape-1"></div>
+            <div class="bg-shape-2"></div>
+            
+            <div class="animate-slide-up">
+                <h1>Manage Your Business <br><span>from Zulora</span></h1>
+                <p>The ultimate multi-tenant Point of Sale & Analytics platform. Setup your custom menu, track daily orders, and auto-send WhatsApp receipts effortlessly.</p>
+                
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="openAuthModal('register')">Get Started for Free ➔</button>
+                    <a href="#features"><button class="btn-outline">Explore Features</button></a>
+                </div>
+            </div>
+        </header>
+
+        <!-- FEATURES SECTION -->
+        <section id="features" class="section-container">
+            <h2 class="section-title">Everything You Need to Scale</h2>
+            <div class="features-grid">
+                
+                <div class="feature-card glass-panel">
+                    <div class="feature-icon">📝</div>
+                    <h3>Custom Menus</h3>
+                    <p>Build your own digital menu. Set unique prices, add variants like Small/Medium/Large, and organize by categories instantly.</p>
+                </div>
+
+                <div class="feature-card glass-panel">
+                    <div class="feature-icon">📲</div>
+                    <h3>WhatsApp Automation</h3>
+                    <p>Impress customers by sending automated digital receipts and "Thank You" messages directly to their WhatsApp upon order confirmation.</p>
+                </div>
+
+                <div class="feature-card glass-panel">
+                    <div class="feature-icon">☁️</div>
+                    <h3>Cloud Secure</h3>
+                    <p>Powered by Google Firebase, ensuring 100% data safety, real-time syncing across devices, and unlimited storage for all your business data.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SUPPORT & CONTACT SECTION -->
+        <section id="support" class="section-container support-section">
+            <h2 class="section-title">We Are Here to Help!</h2>
+            <p style="text-align: center; color: var(--text-light); max-width: 600px; margin: 0 auto;">
+                Have questions about setting up your restaurant profile? Reach out to our dedicated business owner support team 24/7.
+            </p>
+            
+            <div class="contact-cards">
+                <div class="contact-card glass-panel">
+                    <div class="feature-icon">💬</div>
+                    <div class="contact-info">
+                        <h4>WhatsApp Support</h4>
+                        <p>+91 6395211325</p>
+                    </div>
+                </div>
+
+                <div class="contact-card glass-panel">
+                    <div class="feature-icon">📧</div>
+                    <div class="contact-info">
+                        <h4>Email Support</h4>
+                        <p>zulora.help@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Zulora POS. Built for the modern enterprise.</p>
+        </footer>
+
+    </div> <!-- End Landing View -->
+
+    <!-- =========================================================
+         AUTHENTICATION MODAL (Hidden by default)
+         ========================================================= -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-container glass-panel">
+            <button class="close-modal" onclick="closeAuthModal()">✖</button>
+            
+            <div class="auth-header">
+                <h2 id="auth-title">Create Restaurant Profile</h2>
+                <p id="auth-subtitle" style="color: var(--text-light); font-size: 0.9rem;">Join the Zulora ecosystem today.</p>
+            </div>
+
+            <!-- Email / Password Form -->
+            <div class="auth-form" id="email-auth-form">
+                <div class="input-group" id="name-group">
+                    <input type="text" id="business-name" placeholder="Restaurant Name (e.g. Zulora Cafe)">
+                </div>
+                <div class="input-group">
+                    <input type="email" id="auth-email" placeholder="Business Email Address">
+                </div>
+                <div class="input-group">
+                    <input type="password" id="auth-password" placeholder="Secure Password">
+                </div>
+                <button class="btn-primary btn-full" id="auth-submit-btn" onclick="handleEmailAuth()">Register Now</button>
+            </div>
+
+            <div class="divider">OR</div>
+
+            <!-- Google Sign In -->
+            <button class="btn-google" onclick="handleGoogleSignIn()">
+                <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Continue with Google
+            </button>
+
+            <div class="toggle-auth">
+                <span id="toggle-auth-text" onclick="toggleAuthMode()">Already have an account? Login here.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         LOGGED-IN DASHBOARD (Hidden until Auth success)
+         ========================================================= -->
+    <div id="app-dashboard">
+        <div class="dashboard-header">
+            <div>
+                <h1 style="color: var(--azure-blue);">Welcome to Zulora POS</h1>
+                <p style="color: var(--text-light);">Manage your business efficiently.</p>
+            </div>
+            <button class="btn-outline" onclick="logoutUser()">Log Out 👋</button>
+        </div>
+        
+        <div class="glass-panel" style="padding: 40px; text-align: center; border-radius: 16px;">
+            <h2>Your Dashboard is Ready! 🚀</h2>
+            <p style="color: var(--text-light); margin-top: 10px;">Firebase Authentication successful. Menu management and billing interfaces will populate here.</p>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         FIREBASE & LOGIC SCRIPTS
+         ========================================================= -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            onAuthStateChanged, 
+            signOut 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // 🔥 Your exact Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCo8THW250xUzulZnUsmaICPNRmekxvscw",
+            authDomain: "zulora-pos.firebaseapp.com",
+            projectId: "zulora-pos",
+            storageBucket: "zulora-pos.firebasestorage.app",
+            messagingSenderId: "396539182921",
+            appId: "1:396539182921:web:dee02685ac849e65bd2498"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // ---------------------------------------------------------
+        // UI & MODAL LOGIC
+        // ---------------------------------------------------------
+        let currentAuthMode = 'register'; // 'register' or 'login'
+        const modal = document.getElementById('auth-modal');
+
+        window.openAuthModal = (mode) => {
+            currentAuthMode = mode;
+            updateAuthUI();
+            modal.classList.add('active');
+        };
+
+        window.closeAuthModal = () => {
+            modal.classList.remove('active');
+        };
+
+        window.toggleAuthMode = () => {
+            currentAuthMode = currentAuthMode === 'register' ? 'login' : 'register';
+            updateAuthUI();
+        };
+
+        function updateAuthUI() {
+            const title = document.getElementById('auth-title');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const toggleText = document.getElementById('toggle-auth-text');
+            const nameGroup = document.getElementById('name-group');
+
+            if(currentAuthMode === 'register') {
+                title.innerText = "Create Restaurant Profile";
+                submitBtn.innerText = "Register Now";
+                toggleText.innerText = "Already have an account? Login here.";
+                nameGroup.style.display = "block";
+            } else {
+                title.innerText = "Welcome Back Owner";
+                submitBtn.innerText = "Secure Login";
+                toggleText.innerText = "New here? Create a restaurant profile.";
+                nameGroup.style.display = "none";
+            }
+        }
+
+        // ---------------------------------------------------------
+        // FIREBASE AUTHENTICATION LOGIC
+        // ---------------------------------------------------------
+        
+        // Listen for Auth State Changes
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, show dashboard
+                document.getElementById('landing-view').style.display = 'none';
+                document.getElementById('app-dashboard').style.display = 'block';
+                closeAuthModal();
+            } else {
+                // User is signed out, show landing page
+                document.getElementById('landing-view').style.display = 'block';
+                document.getElementById('app-dashboard').style.display = 'none';
+            }
+        });
+
+        // Email & Password Auth
+        window.handleEmailAuth = () => {
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+
+            if(!email || !password) {
+                alert("Please fill in all details!");
+                return;
+            }
+
+            if(currentAuthMode === 'register') {
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        alert("Restaurant Profile Created Successfully! 🎉");
+                    })
+                    .catch((error) => {
+                        alert("Error: " + error.message);
+                    });
+            } else {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Logged in
+                    })
+                    .catch((error) => {
+                        alert("Invalid Credentials. Please try again.");
+                    });
+            }
+        };
+
+        // Google Sign-In
+        window.handleGoogleSignIn = () => {
+            signInWithPopup(auth, googleProvider)
+                .then((result) => {
+                    alert("Google Authentication Successful! 🚀");
+                }).catch((error) => {
+                    alert("Google Sign-In Failed: " + error.message);
+                });
+        };
+
+        // Logout
+        window.logoutUser = () => {
+            signOut(auth).then(() => {
+                alert("Logged out successfully! 👋");
+            }).catch((error) => {
+                alert("Error logging out.");
+            });
+        };
+
+    </script>
+</body>
+</html>
