@@ -2,111 +2,133 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Your Business from Zulora</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js for Dashboard Charts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zulora POS - Enterprise Business Management</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for Real Data Visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- Phosphor Icons (Clean, Professional Icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
     <style>
         /* ==========================================================================
-           ZULORA AI - PEARL & AZURE THEME (GLASSMORPHISM)
+           ZULORA AI - GLOBAL VARIABLES & DESIGN SYSTEM (PEARL & AZURE)
+           STRICT NO-NEON POLICY ENFORCED. GLASSMORPHISM ENABLED.
            ========================================================================== */
         :root {
+            /* Core Colors */
+            --bg-pearl: #f8fafc;
+            --bg-pure-white: #ffffff;
             --primary-azure: #0ea5e9;
             --primary-azure-hover: #0284c7;
-            --bg-pure-white: #ffffff;
-            --bg-pearl: #f8fafc;
-            --text-dark: #0f172a;
+            --primary-azure-light: rgba(14, 165, 233, 0.1);
+            
+            /* Text Colors */
+            --text-main: #0f172a;
             --text-muted: #64748b;
-            --border-light: #e2e8f0;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --text-light: #94a3b8;
+            
+            /* Status Colors */
+            --success: #10b981;
+            --success-light: rgba(16, 185, 129, 0.1);
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --danger-light: rgba(239, 68, 68, 0.1);
+            
+            /* Borders & Shadows */
+            --border-color: #e2e8f0;
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             --shadow-glass: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            
+            /* Spacing & Transitions */
+            --transition-fast: all 0.2s ease;
             --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
         }
 
+        /* ==========================================================================
+           RESET & BASE STYLES
+           ========================================================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
             background-color: var(--bg-pearl);
-            color: var(--text-dark);
+            color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Top Credit Bar */
-        .top-credit-bar {
+        /* Top Foundation Credit */
+        .foundation-credit {
+            background-color: var(--bg-pure-white);
+            color: var(--text-muted);
             font-size: 10px;
             text-align: center;
             padding: 6px;
-            background-color: var(--bg-pure-white);
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-light);
-            letter-spacing: 0.5px;
             text-transform: uppercase;
-            position: fixed;
-            top: 0;
-            width: 100%;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
             z-index: 1000;
         }
 
-        /* Glassmorphism Utilities */
+        /* Glassmorphism Panel Class */
         .glass-panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
-            border-radius: 16px;
+            border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-glass);
         }
 
-        /* Typography */
-        h1, h2, h3, h4, h5, h6 {
-            font-weight: 700;
-            line-height: 1.2;
-            color: var(--text-dark);
-        }
+        /* ==========================================================================
+           TYPOGRAPHY & BUTTONS
+           ========================================================================== */
+        h1, h2, h3, h4, h5 { font-weight: 700; color: var(--text-main); line-height: 1.2; }
+        p { line-height: 1.6; color: var(--text-muted); }
 
-        p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
             padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: var(--border-radius-sm);
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            transition: var(--transition-smooth);
+            transition: var(--transition-fast);
             border: none;
             outline: none;
-            font-size: 14px;
-            gap: 8px;
         }
 
         .btn-primary {
             background-color: var(--primary-azure);
-            color: white;
-            box-shadow: 0 4px 14px 0 rgba(14, 165, 233, 0.2);
+            color: var(--bg-pure-white);
         }
 
         .btn-primary:hover {
             background-color: var(--primary-azure-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
+            transform: translateY(-1px);
         }
 
         .btn-outline {
@@ -116,775 +138,760 @@
         }
 
         .btn-outline:hover {
-            background-color: var(--primary-azure);
+            background-color: var(--primary-azure-light);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-light);
+            color: var(--danger);
+            border: 1px solid transparent;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger);
             color: white;
         }
 
-        .btn-google {
-            background-color: white;
-            color: var(--text-dark);
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-soft);
-            width: 100%;
-            margin-bottom: 12px;
-        }
-
-        .btn-google:hover {
-            background-color: var(--bg-pearl);
-            border-color: #d1d5db;
-        }
-
-        /* Form Inputs */
+        /* ==========================================================================
+           FORMS & INPUTS
+           ========================================================================== */
         .form-group {
             margin-bottom: 20px;
-            text-align: left;
+            width: 100%;
         }
 
         .form-label {
             display: block;
             font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
         }
 
         .form-control {
             width: 100%;
             padding: 12px 16px;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
             background-color: var(--bg-pure-white);
-            color: var(--text-dark);
-            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            color: var(--text-main);
             font-size: 14px;
+            transition: var(--transition-fast);
         }
 
         .form-control:focus {
-            outline: none;
             border-color: var(--primary-azure);
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            box-shadow: 0 0 0 3px var(--primary-azure-light);
+            outline: none;
         }
 
-        /* Navigation */
+        /* ==========================================================================
+           LANDING PAGE & AUTHENTICATION
+           ========================================================================== */
+        #landing-view {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 26px);
+        }
+
         .navbar {
-            padding: 16px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
-            top: 26px; /* Below credit bar */
-            width: 100%;
-            z-index: 999;
-            transition: var(--transition-smooth);
-        }
-
-        .navbar.scrolled {
-            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 5%;
+            background: var(--glass-bg);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-dark);
+        .brand-logo {
+            font-size: 22px;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            color: var(--text-main);
             text-decoration: none;
         }
 
-        .logo-icon {
-            color: var(--primary-azure);
-        }
+        .brand-logo i { color: var(--primary-azure); font-size: 28px; }
 
-        .nav-links {
-            display: flex;
-            gap: 24px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 500;
-            font-size: 14px;
-            transition: var(--transition-smooth);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-azure);
-        }
-
-        /* Sections */
-        section {
-            padding: 100px 5%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
+        .hero-section {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 80px 5%;
             text-align: center;
             position: relative;
-            padding-top: 120px;
         }
 
-        .hero-bg {
+        .hero-bg-blob {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary-azure-light) 0%, rgba(255,255,255,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: -1;
-            background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 40%),
-                        radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.05), transparent 40%);
         }
 
-        .hero-content {
-            max-width: 800px;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .hero h1 {
-            font-size: 56px;
-            letter-spacing: -1px;
+        .hero-content h1 {
+            font-size: clamp(36px, 5vw, 64px);
+            letter-spacing: -1.5px;
             margin-bottom: 24px;
         }
 
-        .hero h1 span {
-            color: var(--primary-azure);
-        }
-
-        .hero p {
+        .hero-content h1 span { color: var(--primary-azure); }
+        .hero-content p {
             font-size: 18px;
-            margin-bottom: 40px;
             max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto 40px;
         }
 
-        /* Features Section */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin-top: 60px;
-        }
-
-        .feature-card {
-            padding: 32px;
-            text-align: center;
-            transition: var(--transition-smooth);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            width: 64px;
-            height: 64px;
-            background-color: rgba(14, 165, 233, 0.1);
-            color: var(--primary-azure);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 28px;
-        }
-
-        /* Community & Contact Section */
-        .split-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .contact-box {
-            padding: 40px;
-            text-align: left;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-            font-size: 16px;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        .contact-item svg {
-            color: var(--primary-azure);
-            width: 24px;
-            height: 24px;
-        }
-
-        /* Modals */
-        .modal-overlay {
+        /* Auth Modals */
+        .modal-backdrop {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(4px);
-            z-index: 2000;
+            backdrop-filter: blur(5px);
             display: none;
             align-items: center;
             justify-content: center;
+            z-index: 9999;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        .modal-overlay.active {
+        .modal-backdrop.active {
             display: flex;
             opacity: 1;
         }
 
-        .modal-content {
+        .modal-card {
             background: var(--bg-pure-white);
-            width: 100%;
-            max-width: 450px;
-            border-radius: 20px;
-            padding: 40px;
+            width: 90%;
+            max-width: 480px;
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
             box-shadow: var(--shadow-glass);
             transform: translateY(20px);
             transition: transform 0.3s ease;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
+        .modal-backdrop.active .modal-card { transform: translateY(0); }
 
-        .close-modal {
+        .close-btn {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--text-muted);
+            top: 20px; right: 20px;
+            background: none; border: none;
+            font-size: 24px; color: var(--text-muted);
             cursor: pointer;
         }
 
-        .divider {
+        .google-btn {
+            width: 100%;
+            background: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: var(--border-radius-sm);
             display: flex;
             align-items: center;
-            text-align: center;
-            margin: 24px 0;
-            color: var(--text-muted);
-            font-size: 12px;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-fast);
         }
 
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid var(--border-light);
+        .google-btn:hover { background: var(--bg-pearl); }
+
+        .divider {
+            display: flex; align-items: center; text-align: center; margin: 24px 0; color: var(--text-light); font-size: 12px; font-weight: 600; text-transform: uppercase;
         }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
+        .divider::before { margin-right: 12px; } .divider::after { margin-left: 12px; }
 
-        .divider:not(:empty)::before { margin-right: .25em; }
-        .divider:not(:empty)::after { margin-left: .25em; }
-
-        /* Dashboard Layout */
-        #app-dashboard {
+        /* ==========================================================================
+           MAIN APP DASHBOARD & LAYOUT (DESKTOP & MOBILE RESPONSIVE)
+           ========================================================================== */
+        #app-view {
             display: none;
-            min-height: 100vh;
-            background-color: var(--bg-pearl);
-            padding-top: 26px; /* Accommodate top credit bar */
-        }
-
-        .dashboard-container {
-            display: flex;
             height: calc(100vh - 26px);
+            background-color: var(--bg-pearl);
+            overflow: hidden;
         }
 
-        .sidebar {
-            width: 280px;
-            background-color: var(--bg-pure-white);
-            border-right: 1px solid var(--border-light);
-            padding: 24px;
+        .app-layout {
+            display: flex;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Sidebar Desktop */
+        .app-sidebar {
+            width: 260px;
+            background: var(--bg-pure-white);
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
+            transition: transform 0.3s ease;
+            z-index: 50;
         }
 
-        .sidebar-brand {
-            margin-bottom: 40px;
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .sidebar-menu {
+        .rest-name-display {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary-azure);
+            margin-top: 8px;
+            word-wrap: break-word;
+        }
+
+        .nav-menu {
             list-style: none;
+            padding: 24px 16px;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            flex: 1;
+            overflow-y: auto;
         }
 
-        .sidebar-menu li a {
+        .nav-item {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 12px 16px;
-            text-decoration: none;
             color: var(--text-muted);
-            border-radius: 8px;
-            transition: var(--transition-smooth);
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
             font-weight: 500;
+            font-size: 14px;
+            transition: var(--transition-fast);
+            cursor: pointer;
         }
 
-        .sidebar-menu li a:hover, .sidebar-menu li a.active {
-            background-color: rgba(14, 165, 233, 0.1);
-            color: var(--primary-azure);
-        }
+        .nav-item i { font-size: 20px; }
+        .nav-item:hover { background: var(--bg-pearl); color: var(--text-main); }
+        .nav-item.active { background: var(--primary-azure-light); color: var(--primary-azure); font-weight: 600; }
 
-        .main-content {
+        /* Main Content Area */
+        .app-main {
             flex: 1;
-            padding: 32px;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
         }
 
-        .topbar {
+        .top-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 32px;
-            padding: 16px;
-            background-color: var(--bg-pure-white);
-            border-radius: 12px;
-            box-shadow: var(--shadow-soft);
+            z-index: 10;
         }
 
-        /* Dashboard Stats */
+        .mobile-menu-btn {
+            display: none;
+            background: none; border: none;
+            font-size: 24px; color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .view-section {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           DASHBOARD COMPONENTS (REAL DATA)
+           ========================================================================== */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 24px;
             margin-bottom: 32px;
         }
 
         .stat-card {
-            background-color: var(--bg-pure-white);
+            background: var(--bg-pure-white);
             padding: 24px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
         }
 
-        .stat-title {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
+        .stat-card .title { font-size: 13px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .stat-card .value { font-size: 32px; font-weight: 800; color: var(--text-main); }
+        .stat-card .subtext { font-size: 12px; margin-top: 8px; font-weight: 500; }
+        .text-green { color: var(--success); }
+        .text-blue { color: var(--primary-azure); }
 
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        /* Charts */
-        .charts-container {
-            background-color: var(--bg-pure-white);
+        .chart-container {
+            background: var(--bg-pure-white);
             padding: 24px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
             margin-bottom: 32px;
+            height: 350px;
         }
 
-        .chart-controls {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
+        /* ==========================================================================
+           MENU/PRODUCT MANAGEMENT
+           ========================================================================== */
+        .data-table-wrapper {
+            background: var(--bg-pure-white);
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            box-shadow: var(--shadow-sm);
         }
 
-        .chart-btn {
-            padding: 6px 12px;
-            border: 1px solid var(--border-light);
-            background: transparent;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            font-size: 12px;
-        }
-
-        .chart-btn.active {
-            background-color: var(--primary-azure);
-            color: white;
-            border-color: var(--primary-azure);
-        }
-
-        /* Products Table Layout */
-        .products-section {
-            background-color: var(--bg-pure-white);
-            padding: 24px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border-light);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        table {
+        .data-table {
             width: 100%;
             border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 16px;
             text-align: left;
-            border-bottom: 1px solid var(--border-light);
         }
 
-        th {
-            background-color: var(--bg-pearl);
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 13px;
+        .data-table th {
+            background: var(--bg-pearl);
+            padding: 16px;
+            font-size: 12px;
             text-transform: uppercase;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
         }
 
-        td {
+        .data-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
             font-size: 14px;
-            color: var(--text-dark);
+            color: var(--text-main);
+            vertical-align: middle;
         }
 
-        .size-badge {
+        .size-pill {
             display: inline-block;
             padding: 4px 8px;
-            background-color: rgba(14, 165, 233, 0.1);
+            background: var(--primary-azure-light);
             color: var(--primary-azure);
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 700;
             margin-right: 4px;
-            font-weight: 500;
+            margin-bottom: 4px;
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        .empty-state i { font-size: 48px; color: var(--border-color); margin-bottom: 16px; }
+
+        /* Action Buttons in Table */
+        .action-flex { display: flex; gap: 8px; }
+
+        /* ==========================================================================
+           TOAST NOTIFICATIONS
+           ========================================================================== */
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10000;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .split-section { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
-            .navbar { padding: 16px 20px; }
-            .hero h1 { font-size: 40px; }
+        .toast {
+            background: var(--bg-pure-white);
+            border-left: 4px solid var(--primary-azure);
+            padding: 16px 24px;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-glass);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(120%);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.success { border-left-color: var(--success); }
+
+        /* ==========================================================================
+           RESPONSIVE MEDIA QUERIES (MOBILE OPTIMIZATION)
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .app-sidebar {
+                position: fixed;
+                left: -260px;
+                height: 100%;
+                box-shadow: var(--shadow-glass);
+            }
+            .app-sidebar.mobile-open { left: 0; }
+            .mobile-menu-btn { display: block; }
+            .top-header { padding: 16px 20px; }
+            .content-area { padding: 20px; }
+            
+            /* Sidebar Overlay */
+            .sidebar-overlay {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5); z-index: 40; display: none;
+            }
+            .sidebar-overlay.active { display: block; }
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid { grid-template-columns: 1fr; gap: 16px; }
+            .hero-content h1 { font-size: 32px; }
+            .modal-card { width: 95%; padding: 24px; }
+            .action-flex { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Small Credit at top as requested -->
-    <div class="top-credit-bar">
-        made by a foundation company by Shiven Panwar zulora
+    <!-- Required Top Credit -->
+    <div class="foundation-credit">
+        MADE BY A FOUNDATION COMPANY BY SHIVEN PANWAR ZULORA
     </div>
 
     <!-- ==========================================
-         LANDING PAGE
+         VIEW 1: LANDING & AUTH
          ========================================== -->
-    <div id="landing-page">
-        <!-- Navigation -->
-        <nav class="navbar" id="navbar">
-            <a href="#" class="logo">
-                <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                </svg>
-                Zulora POS
+    <div id="landing-view">
+        <nav class="navbar">
+            <a href="#" class="brand-logo">
+                <i class="ph-fill ph-circles-four"></i> Zulora POS
             </a>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#community">Community</a>
-                <a href="#contact">Contact Support</a>
-                <button class="btn btn-outline" onclick="openModal('loginModal')">Sign In</button>
-                <button class="btn btn-primary" onclick="openModal('registerModal')">Get Started</button>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline" onclick="AuthUI.openModal('loginModal')">Sign In</button>
+                <button class="btn btn-primary" onclick="AuthUI.openModal('registerModal')">Get Started</button>
             </div>
         </nav>
 
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-bg"></div>
+        <section class="hero-section">
+            <div class="hero-bg-blob"></div>
             <div class="hero-content">
-                <h1>Manage Your Business <br><span>From Zulora</span></h1>
-                <p>The enterprise-grade restaurant and cafe management system. Track sales, manage inventory, and seamlessly send orders via WhatsApp with our beautifully crafted, glassmorphism interface. 🚀</p>
-                <div style="display: flex; gap: 16px; justify-content: center;">
-                    <button class="btn btn-primary" onclick="openModal('registerModal')">Create Your Workspace</button>
-                    <button class="btn btn-outline" onclick="document.getElementById('features').scrollIntoView()">Explore Features</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section id="features">
-            <div style="text-align: center; margin-bottom: 40px;">
-                <h2 style="font-size: 36px; margin-bottom: 16px;">Everything You Need 🛠️</h2>
-                <p>Designed for efficiency, scaling, and beautiful user experiences.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon">📊</div>
-                    <h3>Advanced Analytics</h3>
-                    <p style="margin-top: 12px;">Track your 1-day, 1-week, and 1-month sales effortlessly with our dynamic visual dashboards.</p>
-                </div>
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon">🍔</div>
-                    <h3>Product Management</h3>
-                    <p style="margin-top: 12px;">Add food items with dynamic sizing (Small, Medium, Large) and custom pricing structures.</p>
-                </div>
-                <div class="feature-card glass-panel">
-                    <div class="feature-icon">💬</div>
-                    <h3>WhatsApp Integration</h3>
-                    <p style="margin-top: 12px;">Instantly transfer order details and customer invoices directly to WhatsApp.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Community & Contact -->
-        <section id="community" style="background-color: var(--bg-pure-white);">
-            <div class="split-section">
-                <div>
-                    <h2 style="font-size: 36px; margin-bottom: 24px;">Join the Zulora Community 🌍</h2>
-                    <p style="margin-bottom: 24px;">Zulora is more than just a POS system; it's a foundation for enterprise-grade management. Built to empower cafe and restaurant owners with cutting-edge technology, seamless UI, and robust backend infrastructure.</p>
-                    <p>When you join, you get limitless possibilities to organize your workflow.</p>
-                </div>
-                <div class="contact-box glass-panel" id="contact">
-                    <h3 style="font-size: 24px; margin-bottom: 24px;">Contact Support 🎧</h3>
-                    <div class="contact-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                        +91 6395211325 (WhatsApp)
-                    </div>
-                    <div class="contact-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        zulora.help@gmail.com
-                    </div>
-                </div>
+                <h1>Manage Your Business<br><span>With Pure Efficiency</span></h1>
+                <p>Enterprise-grade restaurant & cafe management. Build menus, track real-time sales, and dispatch WhatsApp orders instantly.</p>
+                <button class="btn btn-primary" style="padding: 16px 32px; font-size: 16px;" onclick="AuthUI.openModal('registerModal')">Create Workspace Now</button>
             </div>
         </section>
     </div>
 
-    <!-- ==========================================
-         AUTH MODALS
-         ========================================== -->
-
+    <!-- AUTHENTICATION MODALS -->
     <!-- Login Modal -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('loginModal')">&times;</button>
-            <h2 style="margin-bottom: 24px; text-align: center;">Welcome Back 👋</h2>
+    <div class="modal-backdrop" id="loginModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="AuthUI.closeModal('loginModal')"><i class="ph ph-x"></i></button>
+            <h2 style="margin-bottom: 8px;">Welcome Back 👋</h2>
+            <p style="margin-bottom: 24px;">Sign in to your Zulora POS workspace.</p>
             
-            <button class="btn btn-google" onclick="signInWithGoogle()">
-                <svg style="width: 18px; height: 18px; margin-right: 8px;" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                Sign in with Google
+            <button class="google-btn" onclick="AuthLogic.signInGoogle()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" width="18"> Continue with Google
             </button>
-
-            <div class="divider">or</div>
-
+            <div class="divider">or with email</div>
+            
             <div class="form-group">
                 <label class="form-label">Email Address</label>
-                <input type="email" id="loginEmail" class="form-control" placeholder="admin@zulora.com">
+                <input type="email" id="login-email" class="form-control" placeholder="admin@zulora.com">
             </div>
             <div class="form-group">
                 <label class="form-label">Password</label>
-                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••">
+                <input type="password" id="login-password" class="form-control" placeholder="••••••••">
             </div>
-            <button class="btn btn-primary" style="width: 100%;" onclick="signInWithEmail()">Sign In</button>
-            <p id="loginError" style="color: red; font-size: 12px; margin-top: 10px; display: none;"></p>
+            <button class="btn btn-primary" style="width: 100%;" onclick="AuthLogic.signInEmail()">Sign In</button>
         </div>
     </div>
 
     <!-- Register Modal -->
-    <div class="modal-overlay" id="registerModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('registerModal')">&times;</button>
-            <h2 style="margin-bottom: 24px; text-align: center;">Create Workspace 🏢</h2>
+    <div class="modal-backdrop" id="registerModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="AuthUI.closeModal('registerModal')"><i class="ph ph-x"></i></button>
+            <h2 style="margin-bottom: 8px;">Create Workspace 🚀</h2>
+            <p style="margin-bottom: 24px;">Start managing your business beautifully.</p>
             
-            <button class="btn btn-google" onclick="signInWithGoogle()">
-                <svg style="width: 18px; height: 18px; margin-right: 8px;" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                Sign up with Google
+            <button class="google-btn" onclick="AuthLogic.signInGoogle()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" width="18"> Sign up with Google
             </button>
-
-            <div class="divider">or</div>
-
+            <div class="divider">or with email</div>
+            
             <div class="form-group">
                 <label class="form-label">Email Address</label>
-                <input type="email" id="regEmail" class="form-control" placeholder="admin@zulora.com">
+                <input type="email" id="reg-email" class="form-control" placeholder="owner@restaurant.com">
             </div>
             <div class="form-group">
                 <label class="form-label">Password</label>
-                <input type="password" id="regPassword" class="form-control" placeholder="••••••••">
+                <input type="password" id="reg-password" class="form-control" placeholder="Min 6 characters">
             </div>
-            <button class="btn btn-primary" style="width: 100%;" onclick="registerWithEmail()">Register</button>
-            <p id="regError" style="color: red; font-size: 12px; margin-top: 10px; display: none;"></p>
+            <button class="btn btn-primary" style="width: 100%;" onclick="AuthLogic.registerEmail()">Create Account</button>
         </div>
     </div>
 
-    <!-- Onboarding / Restaurant Name Modal -->
-    <div class="modal-overlay" id="onboardingModal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 16px; text-align: center;">Welcome to Zulora! 🎉</h2>
-            <p style="text-align: center; margin-bottom: 24px; font-size: 14px;">Let's setup your unique workspace.</p>
+    <!-- Onboarding Modal (Restaurant Name) -->
+    <div class="modal-backdrop" id="onboardingModal" style="background: var(--bg-pearl);">
+        <div class="modal-card">
+            <h2 style="margin-bottom: 8px;">Final Step! 🏪</h2>
+            <p style="margin-bottom: 24px;">What is the name of your Cafe or Restaurant?</p>
             <div class="form-group">
-                <label class="form-label">Cafe / Restaurant Name</label>
-                <input type="text" id="restaurantName" class="form-control" placeholder="e.g. The Zulora Cafe">
+                <label class="form-label">Business Name</label>
+                <input type="text" id="business-name" class="form-control" placeholder="e.g. Wood Fire Grill Cafe">
+                <small style="color: var(--text-muted); display: block; margin-top: 8px;">*If you type "Wood Fire Grill Cafe", we will automatically load your specific customizable menu!</small>
             </div>
-            <button class="btn btn-primary" style="width: 100%;" onclick="saveRestaurantInfo()">Complete Setup</button>
+            <button class="btn btn-primary" style="width: 100%;" onclick="AuthLogic.completeOnboarding()">Setup Dashboard</button>
         </div>
     </div>
 
-    <!-- Add Product Modal -->
-    <div class="modal-overlay" id="addProductModal">
-        <div class="modal-content" style="max-width: 600px;">
-            <button class="close-modal" onclick="closeModal('addProductModal')">&times;</button>
-            <h2 style="margin-bottom: 24px;">Add New Menu Item 🍕</h2>
-            
-            <div class="form-group">
-                <label class="form-label">Product Name</label>
-                <input type="text" id="prodName" class="form-control" placeholder="Margherita Pizza">
-            </div>
-            
-            <div class="split-section" style="gap: 16px; margin-bottom: 20px;">
-                <div class="form-group" style="margin: 0;">
-                    <label class="form-label">Small Price (₹)</label>
-                    <input type="number" id="priceS" class="form-control" placeholder="199">
-                </div>
-                <div class="form-group" style="margin: 0;">
-                    <label class="form-label">Medium Price (₹)</label>
-                    <input type="number" id="priceM" class="form-control" placeholder="299">
-                </div>
-                <div class="form-group" style="margin: 0;">
-                    <label class="form-label">Large Price (₹)</label>
-                    <input type="number" id="priceL" class="form-control" placeholder="399">
-                </div>
-            </div>
-            
-            <button class="btn btn-primary" style="width: 100%;" onclick="saveProduct()">Add to Menu</button>
-        </div>
-    </div>
 
     <!-- ==========================================
-         DASHBOARD SYSTEM
+         VIEW 2: MAIN APPLICATION DASHBOARD
          ========================================== -->
-    <div id="app-dashboard">
-        <div class="dashboard-container">
+    <div id="app-view">
+        <div class="app-layout">
+            
+            <!-- Mobile Sidebar Overlay -->
+            <div class="sidebar-overlay" id="sidebar-overlay" onclick="AppUI.toggleSidebar()"></div>
+
             <!-- Sidebar -->
-            <aside class="sidebar">
-                <div class="sidebar-brand">
-                    <a href="#" class="logo">
-                        <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                        Zulora POS
-                    </a>
-                    <p id="sidebar-restaurant-name" style="font-size: 12px; margin-top: 8px; color: var(--primary-azure); font-weight: 600;"></p>
+            <aside class="app-sidebar" id="app-sidebar">
+                <div class="sidebar-header">
+                    <div class="brand-logo"><i class="ph-fill ph-circles-four"></i> Zulora POS</div>
+                    <div class="rest-name-display" id="display-rest-name">Loading...</div>
                 </div>
-                <ul class="sidebar-menu">
-                    <li><a href="#" class="active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> Dashboard</a></li>
-                    <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> Products</a></li>
-                    <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Invoices</a></li>
-                    <li style="margin-top: auto;"><a href="#" onclick="logout()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout</a></li>
+                <ul class="nav-menu">
+                    <li class="nav-item active" onclick="AppUI.switchTab('tab-dashboard', this)">
+                        <i class="ph ph-squares-four"></i> Dashboard
+                    </li>
+                    <li class="nav-item" onclick="AppUI.switchTab('tab-menu', this)">
+                        <i class="ph ph-list-dashes"></i> Custom Menu
+                    </li>
+                    <li class="nav-item" onclick="AppUI.switchTab('tab-pos', this)">
+                        <i class="ph ph-receipt"></i> Create Order / POS
+                    </li>
+                    <li class="nav-item" onclick="AppUI.switchTab('tab-history', this)">
+                        <i class="ph ph-clock-counter-clockwise"></i> Order History
+                    </li>
+                    <div style="flex: 1;"></div>
+                    <li class="nav-item" onclick="AuthLogic.logout()" style="color: var(--danger);">
+                        <i class="ph ph-sign-out"></i> Logout
+                    </li>
                 </ul>
             </aside>
 
-            <!-- Main Content -->
-            <main class="main-content">
-                <header class="topbar">
-                    <div>
-                        <h2 id="welcomeText">Dashboard Overview</h2>
-                        <p style="font-size: 13px; margin-top: 4px;">Monitor your business metrics and manage menus.</p>
+            <!-- Main Workspace -->
+            <main class="app-main">
+                <header class="top-header">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <button class="mobile-menu-btn" onclick="AppUI.toggleSidebar()"><i class="ph ph-list"></i></button>
+                        <h2 id="top-header-title" style="font-size: 20px;">Dashboard Overview</h2>
                     </div>
-                    <div>
-                        <button class="btn btn-primary" onclick="openModal('addProductModal')">+ Add Product</button>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="text-align: right; display: none;" id="desktop-user-info">
+                            <div style="font-size: 12px; font-weight: 600; color: var(--text-main);" id="top-user-email">user@email.com</div>
+                            <div style="font-size: 11px; color: var(--success);">Online</div>
+                        </div>
                     </div>
                 </header>
 
-                <!-- Stats -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-title">Today's Revenue</div>
-                        <div class="stat-value">₹4,250</div>
-                        <div style="color: #10b981; font-size: 12px; font-weight: 500; margin-top: 8px;">+12% from yesterday</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">Weekly Orders</div>
-                        <div class="stat-value">184</div>
-                        <div style="color: #10b981; font-size: 12px; font-weight: 500; margin-top: 8px;">+5% from last week</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">Monthly Growth</div>
-                        <div class="stat-value">₹1.2L</div>
-                        <div style="color: var(--primary-azure); font-size: 12px; font-weight: 500; margin-top: 8px;">On track 🚀</div>
-                    </div>
-                </div>
+                <div class="content-area">
+                    
+                    <!-- TAB 1: DASHBOARD -->
+                    <div id="tab-dashboard" class="view-section active">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="title"><i class="ph ph-currency-inr"></i> Today's Sales</div>
+                                <div class="value" id="stat-today-sales">₹0</div>
+                                <div class="subtext text-green" id="stat-today-orders">0 Orders Processed</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="title"><i class="ph ph-calendar-blank"></i> This Month</div>
+                                <div class="value" id="stat-month-sales">₹0</div>
+                                <div class="subtext text-blue">Real-time data</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="title"><i class="ph ph-hamburger"></i> Menu Items</div>
+                                <div class="value" id="stat-menu-count">0</div>
+                                <div class="subtext text-muted">Active items</div>
+                            </div>
+                        </div>
 
-                <!-- Charts Area -->
-                <div class="charts-container">
-                    <div class="section-header" style="margin-bottom: 0;">
-                        <h3>Sales Analytics 📈</h3>
-                        <div class="chart-controls">
-                            <button class="chart-btn" onclick="updateChart('1D')" id="btn-1D">1 Day</button>
-                            <button class="chart-btn active" onclick="updateChart('1W')" id="btn-1W">1 Week</button>
-                            <button class="chart-btn" onclick="updateChart('1M')" id="btn-1M">1 Month</button>
+                        <div class="chart-container">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3 style="font-size: 16px;">Revenue Analytics (Last 7 Days)</h3>
+                            </div>
+                            <canvas id="revenueChart"></canvas>
                         </div>
                     </div>
-                    <canvas id="salesChart" height="80"></canvas>
-                </div>
 
-                <!-- Products Table -->
-                <div class="products-section">
-                    <div class="section-header">
-                        <h3>Menu Management 📋</h3>
-                        <button class="btn btn-outline" style="padding: 8px 16px;" onclick="sendMenuToWhatsApp()">
-                            Send Menu via WhatsApp 📱
-                        </button>
+                    <!-- TAB 2: MENU MANAGEMENT -->
+                    <div id="tab-menu" class="view-section">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+                            <p style="max-width: 600px;">Manage your customizable menu. Add specific sizes and prices. This is synchronized instantly.</p>
+                            <div style="display: flex; gap: 12px;">
+                                <button class="btn btn-outline" onclick="MenuLogic.shareMenuWhatsApp()"><i class="ph ph-whatsapp-logo"></i> Share Menu</button>
+                                <button class="btn btn-primary" onclick="AuthUI.openModal('productModal')"><i class="ph ph-plus"></i> Add Item</button>
+                            </div>
+                        </div>
+
+                        <div class="data-table-wrapper">
+                            <table class="data-table" id="menu-table">
+                                <thead>
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Available Sizes & Pricing</th>
+                                        <th style="width: 120px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="menu-tbody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div style="overflow-x: auto;">
-                        <table id="productsTable">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Product Name</th>
-                                    <th>Sizes Available</th>
-                                    <th>Prices (S/M/L)</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="productTableBody">
-                                <!-- Populated by JS -->
-                            </tbody>
-                        </table>
+
+                    <!-- TAB 3: CREATE ORDER (POS) -->
+                    <div id="tab-pos" class="view-section">
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;" id="pos-grid">
+                            
+                            <!-- Menu Selection Area -->
+                            <div class="glass-panel" style="padding: 24px; background: var(--bg-pure-white);">
+                                <h3 style="margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Select Items</h3>
+                                <div id="pos-menu-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; max-height: 500px; overflow-y: auto; padding-right: 8px;">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Cart Area -->
+                            <div class="glass-panel" style="padding: 24px; background: var(--bg-pure-white); display: flex; flex-direction: column;">
+                                <h3 style="margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Current Order</h3>
+                                
+                                <div class="form-group">
+                                    <input type="text" id="pos-customer-name" class="form-control" placeholder="Customer Name (Optional)" style="padding: 8px 12px;">
+                                </div>
+
+                                <div id="pos-cart-items" style="flex: 1; overflow-y: auto; margin-bottom: 16px; display: flex; flex-direction: column; gap: 12px;">
+                                    <div class="empty-state" style="padding: 20px;">Cart is empty</div>
+                                </div>
+                                
+                                <div style="border-top: 2px dashed var(--border-color); padding-top: 16px; margin-bottom: 16px;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 800;">
+                                        <span>Total:</span>
+                                        <span id="pos-total-amount">₹0</span>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-primary" style="width: 100%; padding: 16px;" onclick="OrderLogic.completeOrder()">Complete & Send to WhatsApp</button>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- TAB 4: ORDER HISTORY -->
+                    <div id="tab-history" class="view-section">
+                        <h3 style="margin-bottom: 24px;">Recent Transactions</h3>
+                        <div class="data-table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Time</th>
+                                        <th>Customer</th>
+                                        <th>Items</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-tbody">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </main>
         </div>
     </div>
 
+    <!-- PRODUCT MODAL -->
+    <div class="modal-backdrop" id="productModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="AuthUI.closeModal('productModal')"><i class="ph ph-x"></i></button>
+            <h2 style="margin-bottom: 24px;">Add Menu Item 🍽️</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Item Name</label>
+                <input type="text" id="prod-name" class="form-control" placeholder="e.g. Wood Fired Margherita">
+            </div>
+            
+            <label class="form-label">Pricing by Size (Leave blank if not applicable)</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+                <div>
+                    <div style="font-size: 11px; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);">SMALL (₹)</div>
+                    <input type="number" id="prod-price-s" class="form-control" placeholder="199">
+                </div>
+                <div>
+                    <div style="font-size: 11px; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);">MEDIUM (₹)</div>
+                    <input type="number" id="prod-price-m" class="form-control" placeholder="299">
+                </div>
+                <div>
+                    <div style="font-size: 11px; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);">LARGE (₹)</div>
+                    <input type="number" id="prod-price-l" class="form-control" placeholder="499">
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" style="width: 100%;" onclick="MenuLogic.saveProduct()">Save to Menu</button>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
     <!-- ==========================================
-         FIREBASE & LOGIC SCRIPT
+         JAVASCRIPT LOGIC (FIREBASE & UI STATE)
          ========================================== -->
     <script type="module">
+        // Firebase Modular SDK Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // Firebase Configuration (From User Input)
+        // 1. FIREBASE CONFIGURATION (Provided by Shiven)
         const firebaseConfig = {
             apiKey: "AIzaSyCo8THW250xUzulZnUsmaICPNRmekxvscw",
             authDomain: "zulora-pos.firebaseapp.com",
@@ -894,229 +901,439 @@
             appId: "1:396539182921:web:dee02685ac849e65bd2498"
         };
 
-        // Initialize Firebase
+        // Initialize
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const googleProvider = new GoogleAuthProvider();
 
-        let currentUser = null;
-        let restaurantData = null;
-        let menuItems = [];
-        let salesChartInstance = null;
+        // Global State
+        window.AppState = {
+            user: null,
+            restaurantData: null,
+            menuItems: [],
+            orders: [],
+            cart: [],
+            chartInstance: null
+        };
 
-        // --- UI Controllers ---
-        window.openModal = function(id) {
-            document.getElementById(id).classList.add('active');
-        }
-        window.closeModal = function(id) {
-            document.getElementById(id).classList.remove('active');
-        }
+        // ==========================================
+        // UI HELPERS (Toast, Modals, Tabs)
+        // ==========================================
+        window.AppUI = {
+            showToast: (msg, type = 'success') => {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.innerHTML = `<i class="ph-fill ${type === 'success' ? 'ph-check-circle' : 'ph-warning-circle'}"></i> <div>${msg}</div>`;
+                container.appendChild(toast);
+                
+                setTimeout(() => toast.classList.add('show'), 10);
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            },
+            toggleSidebar: () => {
+                document.getElementById('app-sidebar').classList.toggle('mobile-open');
+                document.getElementById('sidebar-overlay').classList.toggle('active');
+            },
+            switchTab: (tabId, element) => {
+                // Update nav classes
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                element.classList.add('active');
+                
+                // Update views
+                document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+                
+                // Update header title based on tab text
+                document.getElementById('top-header-title').innerText = element.innerText.trim();
+                
+                // Close sidebar on mobile
+                if(window.innerWidth <= 1024) { AppUI.toggleSidebar(); }
+            }
+        };
 
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if(window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-        });
+        window.AuthUI = {
+            openModal: (id) => document.getElementById(id).classList.add('active'),
+            closeModal: (id) => document.getElementById(id).classList.remove('active')
+        };
 
-        // --- Authentication ---
+        // ==========================================
+        // AUTHENTICATION LOGIC
+        // ==========================================
+        window.AuthLogic = {
+            signInGoogle: async () => {
+                try {
+                    await signInWithPopup(auth, googleProvider);
+                } catch(e) { AppUI.showToast(e.message, 'error'); }
+            },
+            registerEmail: async () => {
+                const e = document.getElementById('reg-email').value;
+                const p = document.getElementById('reg-password').value;
+                try { await createUserWithEmailAndPassword(auth, e, p); } 
+                catch(err) { AppUI.showToast(err.message, 'error'); }
+            },
+            signInEmail: async () => {
+                const e = document.getElementById('login-email').value;
+                const p = document.getElementById('login-password').value;
+                try { await signInWithEmailAndPassword(auth, e, p); } 
+                catch(err) { AppUI.showToast(err.message, 'error'); }
+            },
+            logout: () => signOut(auth),
+            
+            completeOnboarding: async () => {
+                const name = document.getElementById('business-name').value.trim();
+                if(!name) return AppUI.showToast("Business name required", 'error');
+                
+                try {
+                    // Set Profile
+                    await setDoc(doc(db, "restaurants", AppState.user.uid), {
+                        name: name,
+                        email: AppState.user.email,
+                        createdAt: serverTimestamp()
+                    });
+                    
+                    // WOOD FIRE GRILL CAFE CUSTOM LOGIC INJECTION
+                    if(name.toLowerCase() === "wood fire grill cafe") {
+                        AppUI.showToast("Wood Fire Grill Cafe detected! Injecting custom menu...", "success");
+                        const defaultMenu = [
+                            { name: "Wood Fired Margherita", prices: { s: 299, m: 499, l: 699 } },
+                            { name: "Smoky Paneer Tikka Pizza", prices: { s: 349, m: 549, l: 749 } },
+                            { name: "Peri Peri Fries", prices: { s: 149, m: 199, l: "" } },
+                            { name: "Classic Cold Coffee", prices: { s: 129, m: 179, l: 229 } },
+                            { name: "Wood Fired Garlic Bread", prices: { s: 199, m: "", l: "" } }
+                        ];
+                        
+                        const menuCol = collection(db, `restaurants/${AppState.user.uid}/menu`);
+                        for(let item of defaultMenu) {
+                            await addDoc(menuCol, {
+                                name: item.name,
+                                priceS: item.prices.s,
+                                priceM: item.prices.m,
+                                priceL: item.prices.l,
+                                addedAt: serverTimestamp()
+                            });
+                        }
+                    }
+
+                    AuthUI.closeModal('onboardingModal');
+                    loadWorkspace();
+                } catch(e) {
+                    AppUI.showToast("Error setting up: " + e.message, 'error');
+                }
+            }
+        };
+
+        // State Listener
         onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('landing-page').style.display = 'none';
-                closeModal('loginModal');
-                closeModal('registerModal');
+            if(user) {
+                AppState.user = user;
+                document.getElementById('landing-view').style.display = 'none';
                 
-                // Check if restaurant is setup
-                const docRef = doc(db, "restaurants", user.uid);
-                const docSnap = await getDoc(docRef);
+                // Close any open auth modals
+                document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
                 
-                if (docSnap.exists()) {
-                    restaurantData = docSnap.data();
-                    showDashboard();
+                // Check if profile exists
+                const snap = await getDoc(doc(db, "restaurants", user.uid));
+                if(snap.exists()) {
+                    AppState.restaurantData = snap.data();
+                    loadWorkspace();
                 } else {
-                    openModal('onboardingModal');
+                    AuthUI.openModal('onboardingModal');
                 }
             } else {
-                currentUser = null;
-                restaurantData = null;
-                document.getElementById('landing-page').style.display = 'block';
-                document.getElementById('app-dashboard').style.display = 'none';
+                AppState.user = null;
+                document.getElementById('landing-view').style.display = 'flex';
+                document.getElementById('app-view').style.display = 'none';
             }
         });
 
-        window.signInWithGoogle = function() {
-            signInWithPopup(auth, googleProvider).catch((error) => {
-                console.error(error);
-                alert("Error signing in with Google.");
-            });
-        }
-
-        window.registerWithEmail = function() {
-            const email = document.getElementById('regEmail').value;
-            const pass = document.getElementById('regPassword').value;
-            createUserWithEmailAndPassword(auth, email, pass).catch(error => {
-                document.getElementById('regError').innerText = error.message;
-                document.getElementById('regError').style.display = 'block';
-            });
-        }
-
-        window.signInWithEmail = function() {
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPassword').value;
-            signInWithEmailAndPassword(auth, email, pass).catch(error => {
-                document.getElementById('loginError').innerText = error.message;
-                document.getElementById('loginError').style.display = 'block';
-            });
-        }
-
-        window.logout = function() {
-            signOut(auth);
-        }
-
-        // --- Onboarding ---
-        window.saveRestaurantInfo = async function() {
-            const name = document.getElementById('restaurantName').value;
-            if(!name) return alert("Please enter a restaurant name");
+        function loadWorkspace() {
+            document.getElementById('app-view').style.display = 'block';
+            document.getElementById('display-rest-name').innerText = AppState.restaurantData.name;
             
-            try {
-                await setDoc(doc(db, "restaurants", currentUser.uid), {
-                    restaurantName: name,
-                    ownerEmail: currentUser.email,
-                    createdAt: new Date()
-                });
-                restaurantData = { restaurantName: name };
-                closeModal('onboardingModal');
-                showDashboard();
-            } catch (e) {
-                console.error("Error adding document: ", e);
+            // Show email on desktop
+            if(window.innerWidth > 1024) {
+                document.getElementById('desktop-user-info').style.display = 'block';
+                document.getElementById('top-user-email').innerText = AppState.user.email;
             }
+
+            initDashboardChart();
+            startRealtimeListeners();
         }
 
-        // --- Dashboard & Data ---
-        function showDashboard() {
-            document.getElementById('app-dashboard').style.display = 'block';
-            document.getElementById('sidebar-restaurant-name').innerText = restaurantData.restaurantName;
-            document.getElementById('welcomeText').innerText = `Welcome back, ${restaurantData.restaurantName}`;
+        // ==========================================
+        // REALTIME DATA & LOGIC
+        // ==========================================
+        function startRealtimeListeners() {
+            const uid = AppState.user.uid;
             
-            initChart();
-            loadProducts();
-        }
+            // 1. Menu Listener
+            onSnapshot(query(collection(db, `restaurants/${uid}/menu`), orderBy("addedAt", "desc")), (snap) => {
+                AppState.menuItems = [];
+                snap.forEach(d => AppState.menuItems.push({id: d.id, ...d.data()}));
+                renderMenuTable();
+                renderPOSMenu();
+                document.getElementById('stat-menu-count').innerText = AppState.menuItems.length;
+            });
 
-        window.saveProduct = async function() {
-            const name = document.getElementById('prodName').value;
-            const pS = document.getElementById('priceS').value;
-            const pM = document.getElementById('priceM').value;
-            const pL = document.getElementById('priceL').value;
-
-            if(!name) return alert("Product name required");
-
-            try {
-                await addDoc(collection(db, `restaurants/${currentUser.uid}/products`), {
-                    name: name,
-                    prices: {
-                        small: pS || "-",
-                        medium: pM || "-",
-                        large: pL || "-"
-                    },
-                    timestamp: new Date()
-                });
-                closeModal('addProductModal');
-                // clear inputs
-                document.getElementById('prodName').value = '';
-                document.getElementById('priceS').value = '';
-                document.getElementById('priceM').value = '';
-                document.getElementById('priceL').value = '';
-            } catch(e) {
-                console.error("Error adding product:", e);
-            }
-        }
-
-        function loadProducts() {
-            if(!currentUser) return;
-            const q = query(collection(db, `restaurants/${currentUser.uid}/products`));
-            onSnapshot(q, (snapshot) => {
-                menuItems = [];
-                const tbody = document.getElementById('productTableBody');
-                tbody.innerHTML = '';
+            // 2. Orders Listener (Real Dashboard Data)
+            onSnapshot(query(collection(db, `restaurants/${uid}/orders`), orderBy("timestamp", "desc")), (snap) => {
+                AppState.orders = [];
+                let todaySales = 0, monthSales = 0, todayOrders = 0;
                 
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    menuItems.push({id: doc.id, ...data});
-                    
-                    let sizesHtml = '';
-                    let pricesText = '';
-                    if(data.prices.small !== "-") { sizesHtml += '<span class="size-badge">S</span>'; pricesText += `₹${data.prices.small} / `; }
-                    if(data.prices.medium !== "-") { sizesHtml += '<span class="size-badge">M</span>'; pricesText += `₹${data.prices.medium} / `; }
-                    if(data.prices.large !== "-") { sizesHtml += '<span class="size-badge">L</span>'; pricesText += `₹${data.prices.large}`; }
-                    
-                    if(pricesText.endsWith(' / ')) pricesText = pricesText.slice(0, -3);
+                const now = new Date();
+                const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+                const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
 
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td style="font-family: monospace; color: var(--text-muted); font-size: 12px;">#${doc.id.substring(0,6).toUpperCase()}</td>
-                        <td style="font-weight: 500;">${data.name}</td>
-                        <td>${sizesHtml}</td>
-                        <td>${pricesText}</td>
-                        <td>
-                            <button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" onclick="alert('Feature coming soon!')">Edit</button>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
+                snap.forEach(d => {
+                    const order = {id: d.id, ...d.data()};
+                    AppState.orders.push(order);
+                    
+                    const orderTime = order.timestamp ? order.timestamp.toMillis() : Date.now();
+                    
+                    if(orderTime >= startOfDay) { todaySales += order.total; todayOrders++; }
+                    if(orderTime >= startOfMonth) { monthSales += order.total; }
                 });
 
-                if(menuItems.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 24px; color: var(--text-muted);">No products added yet. Click "+ Add Product" to begin.</td></tr>';
-                }
+                document.getElementById('stat-today-sales').innerText = `₹${todaySales}`;
+                document.getElementById('stat-today-orders').innerText = `${todayOrders} Orders Processed`;
+                document.getElementById('stat-month-sales').innerText = `₹${monthSales}`;
+                
+                renderOrderHistory();
+                updateChartData();
             });
         }
 
-        // --- WhatsApp Integration ---
-        window.sendMenuToWhatsApp = function() {
-            if(menuItems.length === 0) {
-                alert("Your menu is empty!");
+        // ==========================================
+        // MENU MANAGEMENT
+        // ==========================================
+        window.MenuLogic = {
+            saveProduct: async () => {
+                const name = document.getElementById('prod-name').value.trim();
+                const ps = document.getElementById('prod-price-s').value;
+                const pm = document.getElementById('prod-price-m').value;
+                const pl = document.getElementById('prod-price-l').value;
+
+                if(!name) return AppUI.showToast("Item name is required", "error");
+                if(!ps && !pm && !pl) return AppUI.showToast("Provide at least one price", "error");
+
+                try {
+                    await addDoc(collection(db, `restaurants/${AppState.user.uid}/menu`), {
+                        name: name,
+                        priceS: ps || "",
+                        priceM: pm || "",
+                        priceL: pl || "",
+                        addedAt: serverTimestamp()
+                    });
+                    
+                    AuthUI.closeModal('productModal');
+                    document.getElementById('prod-name').value = '';
+                    document.getElementById('prod-price-s').value = '';
+                    document.getElementById('prod-price-m').value = '';
+                    document.getElementById('prod-price-l').value = '';
+                    AppUI.showToast("Item added successfully");
+                } catch(e) { AppUI.showToast("Error: " + e.message, "error"); }
+            },
+            
+            deleteProduct: async (id) => {
+                if(confirm("Delete this item from the menu?")) {
+                    try {
+                        import { deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+                        await deleteDoc(doc(db, `restaurants/${AppState.user.uid}/menu`, id));
+                        AppUI.showToast("Item deleted");
+                    } catch(e) { AppUI.showToast("Error deleting", "error"); }
+                }
+            },
+
+            shareMenuWhatsApp: () => {
+                if(AppState.menuItems.length === 0) return AppUI.showToast("Menu is empty", "error");
+                
+                let text = `*${AppState.restaurantData.name} - Our Menu* 🍽️\n\n`;
+                AppState.menuItems.forEach(item => {
+                    text += `▪️ *${item.name}*\n`;
+                    let prices = [];
+                    if(item.priceS) prices.push(`Small: ₹${item.priceS}`);
+                    if(item.priceM) prices.push(`Medium: ₹${item.priceM}`);
+                    if(item.priceL) prices.push(`Large: ₹${item.priceL}`);
+                    text += `  ${prices.join(' | ')}\n\n`;
+                });
+                text += `_Contact us to place an order!_\nPowered by Zulora POS`;
+                
+                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+            }
+        };
+
+        function renderMenuTable() {
+            const tbody = document.getElementById('menu-tbody');
+            if(AppState.menuItems.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3"><div class="empty-state"><i class="ph ph-receipt"></i><br>No items found. Click 'Add Item' to start.</div></td></tr>`;
                 return;
             }
-            
-            let text = `*${restaurantData.restaurantName} Menu* 🍽️\n\n`;
-            menuItems.forEach(item => {
-                text += `🍔 *${item.name}*\n`;
-                if(item.prices.small !== "-") text += `Small: ₹${item.prices.small} | `;
-                if(item.prices.medium !== "-") text += `Medium: ₹${item.prices.medium} | `;
-                if(item.prices.large !== "-") text += `Large: ₹${item.prices.large}`;
-                text += `\n\n`;
-            });
-            text += `Order now via Zulora POS!\nContact: +91 6395211325`;
 
-            const encodedText = encodeURIComponent(text);
-            const waUrl = `https://wa.me/916395211325?text=${encodedText}`;
-            window.open(waUrl, '_blank');
+            tbody.innerHTML = AppState.menuItems.map(item => {
+                let pHTML = '';
+                if(item.priceS) pHTML += `<span class="size-pill">S: ₹${item.priceS}</span>`;
+                if(item.priceM) pHTML += `<span class="size-pill">M: ₹${item.priceM}</span>`;
+                if(item.priceL) pHTML += `<span class="size-pill">L: ₹${item.priceL}</span>`;
+                
+                return `
+                    <tr>
+                        <td style="font-weight: 600;">${item.name}</td>
+                        <td>${pHTML}</td>
+                        <td>
+                            <div class="action-flex">
+                                <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="MenuLogic.deleteProduct('${item.id}')"><i class="ph ph-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
-        // --- Chart Logic ---
-        function initChart() {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            
-            // Dummy Data initialization
-            const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-            const data = [1200, 1900, 3000, 5000, 4200, 6000, 7500];
+        // ==========================================
+        // POS & ORDER LOGIC
+        // ==========================================
+        function renderPOSMenu() {
+            const container = document.getElementById('pos-menu-list');
+            container.innerHTML = AppState.menuItems.map(item => {
+                let btns = '';
+                if(item.priceS) btns += `<button class="btn btn-outline" style="padding: 4px; font-size:11px;" onclick="OrderLogic.addToCart('${item.name}', 'Small', ${item.priceS})">S ₹${item.priceS}</button>`;
+                if(item.priceM) btns += `<button class="btn btn-outline" style="padding: 4px; font-size:11px;" onclick="OrderLogic.addToCart('${item.name}', 'Medium', ${item.priceM})">M ₹${item.priceM}</button>`;
+                if(item.priceL) btns += `<button class="btn btn-outline" style="padding: 4px; font-size:11px;" onclick="OrderLogic.addToCart('${item.name}', 'Large', ${item.priceL})">L ₹${item.priceL}</button>`;
+                
+                return `
+                    <div style="border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); padding: 12px; background: var(--bg-pearl);">
+                        <div style="font-weight: 600; font-size: 13px; margin-bottom: 8px;">${item.name}</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px;">${btns}</div>
+                    </div>
+                `;
+            }).join('');
+        }
 
-            salesChartInstance = new Chart(ctx, {
+        window.OrderLogic = {
+            addToCart: (name, size, price) => {
+                AppState.cart.push({ id: Date.now(), name, size, price: Number(price) });
+                OrderLogic.renderCart();
+            },
+            removeFromCart: (id) => {
+                AppState.cart = AppState.cart.filter(c => c.id !== id);
+                OrderLogic.renderCart();
+            },
+            renderCart: () => {
+                const container = document.getElementById('pos-cart-items');
+                const totalEl = document.getElementById('pos-total-amount');
+                let total = 0;
+
+                if(AppState.cart.length === 0) {
+                    container.innerHTML = `<div class="empty-state" style="padding: 20px;">Cart is empty</div>`;
+                    totalEl.innerText = '₹0';
+                    return;
+                }
+
+                container.innerHTML = AppState.cart.map(c => {
+                    total += c.price;
+                    return `
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600;">${c.name}</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">${c.size}</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="font-weight: 600;">₹${c.price}</div>
+                                <i class="ph ph-x-circle" style="color: var(--danger); cursor: pointer;" onclick="OrderLogic.removeFromCart(${c.id})"></i>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                totalEl.innerText = `₹${total}`;
+            },
+            completeOrder: async () => {
+                if(AppState.cart.length === 0) return AppUI.showToast("Cart is empty!", "error");
+                
+                const cName = document.getElementById('pos-customer-name').value || "Walk-in Customer";
+                const total = AppState.cart.reduce((sum, item) => sum + item.price, 0);
+                const orderData = {
+                    customer: cName,
+                    items: AppState.cart,
+                    total: total,
+                    timestamp: serverTimestamp()
+                };
+
+                try {
+                    // Save to DB
+                    await addDoc(collection(db, `restaurants/${AppState.user.uid}/orders`), orderData);
+                    
+                    // Generate WhatsApp Invoice
+                    let waText = `*${AppState.restaurantData.name} - INVOICE* 🧾\n\n`;
+                    waText += `Customer: ${cName}\nDate: ${new Date().toLocaleDateString()}\n\n*Order Details:*\n`;
+                    AppState.cart.forEach(item => {
+                        waText += `▪️ ${item.name} (${item.size}) - ₹${item.price}\n`;
+                    });
+                    waText += `\n*Total Amount: ₹${total}*\n\n_Thank you for your order!_\nPowered by Zulora POS`;
+                    
+                    // Clear Cart
+                    AppState.cart = [];
+                    document.getElementById('pos-customer-name').value = '';
+                    OrderLogic.renderCart();
+                    AppUI.showToast("Order saved successfully!");
+                    
+                    // Open WhatsApp (use their specific support/manager number or prompt)
+                    // For now, open generic wa.me to allow sending to customer or manager
+                    window.open(`https://wa.me/?text=${encodeURIComponent(waText)}`, '_blank');
+                    
+                } catch(e) { AppUI.showToast("Error saving order: " + e.message, "error"); }
+            }
+        };
+
+        function renderOrderHistory() {
+            const tbody = document.getElementById('history-tbody');
+            if(AppState.orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state">No orders yet.</div></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = AppState.orders.map(o => {
+                const time = o.timestamp ? new Date(o.timestamp.toMillis()).toLocaleString() : 'Just now';
+                const itemsCount = o.items ? o.items.length : 0;
+                return `
+                    <tr>
+                        <td style="font-family: monospace; font-size:12px; color:var(--text-muted);">#${o.id.substring(0,8).toUpperCase()}</td>
+                        <td style="font-size: 13px;">${time}</td>
+                        <td style="font-weight: 500;">${o.customer}</td>
+                        <td>${itemsCount} items</td>
+                        <td style="font-weight: 700; color: var(--success);">₹${o.total}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // CHART LOGIC (REAL DATA AGGREGATION)
+        // ==========================================
+        function initDashboardChart() {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            Chart.defaults.font.family = 'Inter';
+            
+            AppState.chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: labels,
+                    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Today'],
                     datasets: [{
-                        label: 'Sales Revenue (₹)',
-                        data: data,
+                        label: 'Revenue (₹)',
+                        data: [0,0,0,0,0,0,0], // Initial Empty
                         borderColor: '#0ea5e9',
-                        backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                        backgroundColor: 'rgba(14, 165, 233, 0.15)',
                         borderWidth: 3,
                         fill: true,
                         tension: 0.4,
                         pointBackgroundColor: '#ffffff',
                         pointBorderColor: '#0ea5e9',
-                        pointRadius: 4
+                        pointRadius: 4,
+                        pointHoverRadius: 6
                     }]
                 },
                 options: {
@@ -1124,35 +1341,48 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { beginAtZero: true, grid: { borderDash: [4, 4] } },
+                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)', borderDash: [5, 5] } },
                         x: { grid: { display: false } }
                     }
                 }
             });
         }
 
-        window.updateChart = function(period) {
-            // Update button styles
-            ['btn-1D', 'btn-1W', 'btn-1M'].forEach(id => document.getElementById(id).classList.remove('active'));
-            document.getElementById(`btn-${period}`).classList.add('active');
-
-            // Dummy update logic based on period
-            let newLabels, newData;
-            if(period === '1D') {
-                newLabels = ['9AM', '12PM', '3PM', '6PM', '9PM', '12AM'];
-                newData = [200, 800, 400, 1200, 1500, 500];
-            } else if(period === '1W') {
-                newLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                newData = [1200, 1900, 3000, 5000, 4200, 6000, 7500];
-            } else {
-                newLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
-                newData = [15000, 22000, 18000, 28000];
+        function updateChartData() {
+            if(!AppState.chartInstance) return;
+            
+            // Calculate last 7 days revenue from real orders
+            const last7Days = Array(7).fill(0);
+            const labels = [];
+            const today = new Date();
+            
+            for(let i=6; i>=0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                labels.push(d.toLocaleDateString('en-US', {weekday: 'short'}));
             }
 
-            salesChartInstance.data.labels = newLabels;
-            salesChartInstance.data.datasets[0].data = newData;
-            salesChartInstance.update();
+            AppState.orders.forEach(o => {
+                if(!o.timestamp) return;
+                const orderDate = new Date(o.timestamp.toMillis());
+                
+                // Check if within last 7 days
+                const diffTime = Math.abs(today - orderDate);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                if(diffDays < 7) {
+                    const index = 6 - diffDays;
+                    if(index >=0 && index < 7) {
+                        last7Days[index] += o.total;
+                    }
+                }
+            });
+
+            AppState.chartInstance.data.labels = labels;
+            AppState.chartInstance.data.datasets[0].data = last7Days;
+            AppState.chartInstance.update();
         }
+
     </script>
 </body>
 </html>
