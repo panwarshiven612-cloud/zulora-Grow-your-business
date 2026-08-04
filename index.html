@@ -627,9 +627,13 @@
                                 <span id="cart-subtotal">₹0</span>
                             </div>
                             <div class="summary-row">
-                                <span>Tax (GST 0%)</span>
-                                <span id="cart-tax">₹0</span>
-                            </div>
+    <span>Subtotal</span>
+    <span id="cart-subtotal">₹0</span>
+</div>
+<div class="summary-row total">
+    <span>Total Bill</span>
+    <span id="cart-total" style="color: var(--azure-blue);">₹0</span>
+</div>
                             <div class="summary-row total">
                                 <span>Total Bill</span>
                                 <span id="cart-total" style="color: var(--azure-blue);">₹0</span>
@@ -875,12 +879,15 @@
                 },
                 {
                     "category": "SHAKES / MOCKTAILS & DRINKS",
-                    "items": [
-                        { "name": "Cold Coffee", "price": 100 },
-                        { "name": "Strawberry Shake", "price": 110 },
-                        { "name": "Butterscotch Shake", "price": 110 },
-                        { "name": "Cold Drink", "price": 50 }
-                    ]
+                            "items": [
+            { "name": "Cold Coffee", "price": 100 },
+            { "name": "Strawberry Shake", "price": 110 },
+            { "name": "Butterscotch Shake", "price": 110 },
+            { "name": "Cold Drink (Small)", "price": 20 },
+            { "name": "Cold Drink (Medium)", "price": 35 },
+            { "name": "Cold Drink (Large)", "price": 50 }
+        ]
+        
                 }
             ]
         };
@@ -1127,14 +1134,13 @@
                         </div>
                     </div>
                 `;
-            });
+             });
 
-            const tax = Math.round(subtotal * 0.05);
-            const total = subtotal + tax;
+        const total = subtotal;
 
-            document.getElementById('cart-subtotal').innerText = `₹${subtotal}`;
-            document.getElementById('cart-tax').innerText = `₹${tax}`;
-            document.getElementById('cart-total').innerText = `₹${total}`;
+        document.getElementById('cart-subtotal').innerText = `₹${subtotal}`;
+        document.getElementById('cart-total').innerText = `₹${total}`;
+              
         }
 
         // ---------------------------------------------------------
